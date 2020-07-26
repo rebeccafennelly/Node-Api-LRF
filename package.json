@@ -1,34 +1,58 @@
 {
   "name": "lrf-api",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "npm-run-all build serve",
+    "serve": "node ./dist/index",
+    "watch": "nodemon",
+    "clean": "rimraf dist",
+    "transpile": "babel ./src --out-dir dist",
+    "build": "npm-run-all clean transpile",
+    "test": "jest"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "dependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "express": "~4.16.1",
+    "firebase-admin": "^9.0.0",
+    "morgan": "~1.9.1",
+    "nodemon": "^2.0.3",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
+    "uuid": "^8.2.0"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+  "devDependencies": {
+    "jest": "^25.4.0"
+  },
+  "nodemonConfig": {
+    "exec": "npm run start",
+    "watch": [
+      "src/*"
     ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+    "ignore": [
+      "**/__tests__/**",
+      "*.test.js",
+      "*.spec.js"
     ]
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "10"
+          }
+        }
+      ]
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }
