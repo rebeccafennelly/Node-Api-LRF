@@ -4,12 +4,12 @@ import { firestore } from '../config/firebase';
 
 export default class Product {
   constructor (data){
-    this.userId = data.user || ","
-    this.flavour = data.flavour,
-    this.ingredients = data.ingredients,
-    this.containsAddedProtein = data.containsAddedProtein,
-    this.containsAddedCaffeine = data.containsCaffeine,
-    this.containsAshwagandha = data.containsAshwagandha
+    this.id = uuid();
+    this.flavour = data.flavour;
+    this.ingredients = data.ingredients;
+    this.containsAddedProtein = data.containsAddedProtein;
+    this.containsAddedCaffeine = data.containsCaffeine;
+    this.containsAshwagandha = data.containsAshwagandha;
     this.dateCreated = new Date().toUTCString();
   }
 
@@ -33,7 +33,7 @@ static async findByUserId(userId) {
   
 async save() {
     this.dateModified = new Date().toUTCString();
-    const products = {...this};
+    const product = {...this};
     const response = await firestore.collection("products").doc(product.id).set(product);
 }
 

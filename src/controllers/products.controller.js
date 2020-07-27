@@ -10,8 +10,8 @@ export const find = async (req, res) => {
 }
 
 export const create = (req, res) => {
-  const newProduct = new Recipe(req.body);
-  newRecipe.save();
+  const newProduct = new Product(req.body);
+  newProduct.save();
   res.status(201).send({
       message: "Product successfully created",
       "product": newProduct

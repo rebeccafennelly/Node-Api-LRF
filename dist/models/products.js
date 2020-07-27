@@ -17,8 +17,12 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 class Product {
   constructor(data) {
-    this.userId = data.user || ",";
-    this.flavour = data.flavour, this.ingredients = data.ingredients, this.containsAddedProtein = data.containsAddedProtein, this.containsAddedCaffeine = data.containsCaffeine, this.containsAshwagandha = data.containsAshwagandha;
+    this.id = (0, _uuid.v4)();
+    this.flavour = data.flavour;
+    this.ingredients = data.ingredients;
+    this.containsAddedProtein = data.containsAddedProtein;
+    this.containsAddedCaffeine = data.containsCaffeine;
+    this.containsAshwagandha = data.containsAshwagandha;
     this.dateCreated = new Date().toUTCString();
   }
 
@@ -39,7 +43,7 @@ class Product {
 
   async save() {
     this.dateModified = new Date().toUTCString();
-    const products = { ...this
+    const product = { ...this
     };
     const response = await _firebase.firestore.collection("products").doc(product.id).set(product);
   }

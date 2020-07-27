@@ -17,10 +17,10 @@ const router = (0, _express.Router)(); // INDEX route
 
 router.get('/', products.findAll); // SHOW route
 
-router.get('/', products.find); // CREATE route
+router.get('/:id', products.find); // CREATE route
 
 router.post('/', products.create); // DELETE route
 
-router.delete('/', products.destroy);
+router.delete('/:id', products.destroy);
 var _default = router;
 exports.default = _default;
