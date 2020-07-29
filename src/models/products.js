@@ -1,4 +1,3 @@
-import * as products from "../controllers/products.controller";
 import { v4 as uuid } from 'uuid';
 import { firestore } from '../config/firebase';
 
@@ -34,7 +33,7 @@ static async findByUserId(userId) {
 async save() {
     this.dateModified = new Date().toUTCString();
     const product = {...this};
-    const response = await firestore.collection("products").doc(product.id).set(product);
+    const response = await firestore.collection("products").doc(product.id).set(product).catch(err => console.log(error));
 }
 
 static async destroy(id) {

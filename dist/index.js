@@ -1,46 +1,54 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _express = _interopRequireDefault(require("express"));
-
 var _morgan = _interopRequireDefault(require("morgan"));
 
 var _products = _interopRequireDefault(require("./routes/products"));
 
+var _swaggerUiExpress = _interopRequireDefault(require("swagger-ui-express"));
+
+var _core = require("@babel/core");
+
+var _swagger = require("./docs/swagger");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const app = (0, _express.default)();
+// import express from "express";
+// import swaggerDocument from './swagger.json'
 const port = process.env.PORT || '3000';
+
+const express = require("express");
+
+const subpath = express();
+const app = express();
+
+const argv = require('minimist')(process.argv.slice(2));
+
+const bodyParser = require('body-parser');
+
+const swagger = require('swagger-node-express').createNew(subpath);
+
 app.use((0, _morgan.default)('dev'));
-app.use(_express.default.json());
-app.use(_express.default.urlencoded({
+app.use(express.json());
+app.use(express.urlencoded({
   extended: false
 }));
-app.use('/api/products', _products.default); // INDEX route
-// app.get('/api/products', (req, res) => res.status(200).send({
-//     message: "Got all the products!"
-// }))
-// // SHOW route
-// app.get("/api/products/:id", (req, res) => res.status(200).send({
-//   message: `Got one product with id: ${req.params.id}`
-// }));
-// // // CREATE route
-// app.post('/api/products', (req, res) => res.status(201).send({
-//     message: "Successfully created my own LRF product"
-// }))
-// // // DELETE route
-// app.delete('/api/products/:id', (req, res) => res.status(204).send({
-//     message: "Deleted the product with id: " + req.params.id
-// }))
-// Get request to API
+app.use('/api/products', _products.default);
+app.use(bodyParser());
+app.use("/v1", subpath);
+app.use('/docs', _swaggerUiExpress.default.serve, _swaggerUiExpress.default.setup(_swagger.swaggerDocument));
+app.use(express.static('dist'));
+swagger.setApiInfo({
+  title: "Long Range Fuel NODE-API",
+  description: "A CRUD style API of nutritional products, in NodeJs",
+  termsOfServiceUrl: "",
+  contact: "rebeccafennelly115@gmail.com",
+  license: "",
+  licenseUrl: ""
+}); // Set api-doc path
+// swagger.configureSwaggerPaths('', 'api-docs', '');
+// Start the web server
 
+app.listen(port);
 app.get('/api', (req, res) => res.status(200).send({
   message: "Welcome to the Long Range Fuel API!"
 }));
-app.listen(port, () => console.log(`Server is listening on port ${port}.`));
-var _default = app;
-exports.default = _default;
