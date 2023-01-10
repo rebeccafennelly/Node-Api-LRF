@@ -17,7 +17,7 @@
     "@babel/preset-env": "^7.9.5",
     "body-parser": "1.9.x",
     "express": "~4.16.1",
-    "firebase-admin": "^9.0.0",
+    "firebase-admin": "^11.4.1",
     "minimist": "*",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.3",
